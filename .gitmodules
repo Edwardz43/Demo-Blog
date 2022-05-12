@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = git@github.com:Edwardz43/demo-blog-api.git
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:Edwardz43/demo-blog-apigateway.git
