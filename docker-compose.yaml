@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+  db:
+    image: mysql
+    container_name: "db"
+    environment:
+        MYSQL_DATABASE: 'demo'            
+        MYSQL_USER: 'admin'            
+        MYSQL_PASSWORD: '123456'            
+        MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3307:3306
+  api:
+    depends_on: 
+      - db
+    restart: always
+    container_name: "api"
+    image: api
+    command: sh -c "/home/node/start.sh"
+    volumes:
+      - type: bind
+        source: ./config/api/.env
+        target: /home/node/.env
+        read_only: true
+    ports:
+      - "3000:3000"
+  gateway:    
+    depends_on: 
+      - db
+      - api
+    container_name: "gateway"
+    image: gateway
+    volumes:
+      - type: bind
+        source: ./config/gateway/.env
+        target: /home/node/.env
+        read_only: true
+    ports:
+      - "3001:3001"
+  # goclient:
+  #   depends_on: 
+  #     - db
+  #     - api
+  #   image: goclient
+  #   container_name: "goclient"
