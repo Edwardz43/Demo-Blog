@@ -15,9 +15,10 @@ services:
       - db
     restart: always
     container_name: "api"
-    image: api
+    build: ./api/.
     command: sh -c "/home/node/start.sh"
     volumes:
+      - ./logs/api:/home/node/log
       - type: bind
         source: ./config/api/.env
         target: /home/node/.env
@@ -29,17 +30,12 @@ services:
       - db
       - api
     container_name: "gateway"
-    image: gateway
+    build: ./gateway/.
     volumes:
+      - ./logs/gateway:/home/node/log
       - type: bind
         source: ./config/gateway/.env
         target: /home/node/.env
         read_only: true
     ports:
       - "3001:3001"
-  # goclient:
-  #   depends_on: 
-  #     - db
-  #     - api
-  #   image: goclient
-  #   container_name: "goclient"
