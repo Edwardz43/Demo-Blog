@@ -1,3 +1,5 @@
 goclient/*
 db/*
 logs/*
+config/**/.env
+
